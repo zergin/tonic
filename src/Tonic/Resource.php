@@ -119,9 +119,9 @@ class Resource
      * HTTP method condition must match request method
      * @param str $method
      */
-    final protected function method($method)
+    final protected function method()
     {
-        $methods = explode(' ', $method);
+        $methods = func_get_args();
         foreach ($methods as $method) {
             if (strtolower($this->request->method) == strtolower($method)) return;
         }
@@ -173,11 +173,11 @@ class Resource
      */
     protected function lang($language)
     {
-        $pos = array_search($language, $this->request->acceptLang);
+        $pos = array_search($language, $this->request->acceptLanguage);
         if ($pos === FALSE)
-            throw new NotAcceptableException('No matching method for response type "'.join(', ', $this->request->acceptLang).'"');
+            throw new NotAcceptableException('No matching method for response type "'.join(', ', $this->request->acceptLanguage).'"');
 
-        return count($this->request->acceptLang) - $pos;
+        return count($this->request->acceptLanguage) - $pos;
     }
 
     /**
